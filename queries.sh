@@ -29,7 +29,7 @@ echo -e "\nWinner of the 2018 tournament team name:"
 echo "$($PSQL "SELECT name FROM games FULL JOIN teams ON games.winner_id=teams.team_id WHERE year=2018 AND round='Final'")"
 
 echo -e "\nList of teams who played in the 2014 'Eighth-Final' round:"
-echo "$($PSQL "SELECT name FROM games FULL JOIN teams ON games.winner_id=teams.team_id WHERE round='Eighth-Final'")"
+echo "$($PSQL "SELECT t.name FROM games g JOIN teams t ON g.winner_id = t.team_id WHERE g.round = 'Eighth-Final' UNION SELECT t.name FROM games g JOIN teams t ON g.opponent_id = t.team_id WHERE g.round = 'Eighth-Final' AND year=2014 GROUP BY name ORDER BY name;")"
 
 echo -e "\nList of unique winning team names in the whole data set:"
 echo "$($PSQL "SELECT name FROM games LEFT JOIN teams ON games.winner_id=teams.team_id GROUP BY name ORDER BY name")"
